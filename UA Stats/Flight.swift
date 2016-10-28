@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Flight{
+struct Flight : CustomStringConvertible{
     var PQM = 0
     var PQD = 0
     var LifetimeMiles = 0
@@ -53,6 +53,9 @@ struct Flight{
             let start = pQD.index(after: pQD.startIndex)
             PQD = Int(pQD.substring(from: start))!
         }
-        
+    }
+    
+    var description: String{
+        return "PQM: \(PQM), PQD: \(PQD), Lifetime Miles: \(LifetimeMiles), Premium Cabin: \(PremiumCabin), Upgraded: \(Upgraded)"
     }
 }
