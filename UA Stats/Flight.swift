@@ -19,13 +19,17 @@ struct Flight : CustomStringConvertible{
     static let PremiumFareClasses = ["A","C","D","Z","P"]
     static let FullFareEconomyClasses = ["Y", "B"]
     
-    init(fromFlightNum flightNum: String, fromPQM pQM: String, fromPQD pQD: String){
+    init(fromFlightNum flightNum: String, fromPQM rawPQM: String, fromPQD pQD: String){
+        let pQM = rawPQM.replacingOccurrences(of: ",", with: "")
+        
         let range = flightNum.range(of: "(?<=-)[^ ]+(?= )", options: .regularExpression)
         if(range != nil){
             let fareClass = flightNum.substring(with: range!)
             if(fareClass.characters.count > 1){
                 Upgraded = true
                 PremiumCabin = true
+                PQM = Int(pQM)!
+                LifetimeMiles = PQM
             }
             else{
                 if(Flight.FullFarePremiumClasses.contains(fareClass)){

@@ -10,17 +10,17 @@ import Foundation
 
 class Main{
     
-    var totalFlights = 0
-    var totalPQM = 0
-    var totalLifetimeMiles = 0
-    var totalCPM = 0.0
+    static var totalFlights = 0
+    static var totalPQM = 0
+    static var totalLifetimeMiles = 0
+    static var totalCPM = 0.0
     
-    var totalUpgradedFlights = 0
-    var totalUpgradePercentage = 0
+    static var totalUpgradedFlights = 0
+    static var totalUpgradePercentage = 0.0
     
-    var milesPremiumCabin = 0
-    var milesEconomyCabin = 0
-    var percentagePremiumEconomy = 0
+    static var milesPremiumCabin = 0
+    static var milesEconomyCabin = 0
+    static var percentagePremiumEconomy = 0.0
     
     static var allFlights = [Flight]()
     
@@ -28,6 +28,7 @@ class Main{
         if(rawTextStr == ""){
             return
         }
+        resetAllStats()
         
         let allFlightStrArr = rawTextStr.components(separatedBy: "\n")
         
@@ -53,8 +54,50 @@ class Main{
                 //print(Main.allFlights)
             }
         }
+        
+        updateTotalStatistics()
     }
     
+    static func updateTotalStatistics(){
+        totalFlights = allFlights.count
+        var totalCost = 0.0
+        
+        for flight in allFlights{
+            totalPQM += flight.PQM
+            totalLifetimeMiles += flight.LifetimeMiles
+            totalCost += Double(flight.PQD)
+            
+            if(flight.Upgraded){
+                totalUpgradedFlights += 1
+            }
+            
+            if(flight.PremiumCabin){
+                milesPremiumCabin += flight.LifetimeMiles
+            }
+            else{
+                milesEconomyCabin += flight.LifetimeMiles
+            }
+        }
+        
+        totalCPM = totalCost/Double(totalPQM)
+        totalUpgradePercentage = Double(totalUpgradedFlights)/Double(totalFlights)
+        percentagePremiumEconomy = Double(milesPremiumCabin)/Double(totalLifetimeMiles)
+    }
     
+    static func resetAllStats(){
+        totalFlights = 0
+        totalPQM = 0
+        totalLifetimeMiles = 0
+        totalCPM = 0.0
+        
+        totalUpgradedFlights = 0
+        totalUpgradePercentage = 0.0
+        
+        milesPremiumCabin = 0
+        milesEconomyCabin = 0
+        percentagePremiumEconomy = 0.0
+        
+        allFlights.removeAll()
+    }
     
 }
