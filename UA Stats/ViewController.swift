@@ -62,5 +62,6 @@ class ViewController: NSViewController {
 extension ViewController: NSTextViewDelegate{
     override func controlTextDidEndEditing(_ obj: Notification) {
         Main.updateStatistics(rawTextStr: rawTextField.stringValue)
+        
     }
 }

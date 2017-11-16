@@ -55,7 +55,8 @@ struct Flight : CustomStringConvertible{
             }
             
             let start = pQD.index(after: pQD.startIndex)
-            PQD = Int(pQD.substring(from: start))!
+            let pqdTest = Int(pQD.substring(from: start).replacingOccurrences(of: ",", with: ""))
+            PQD = pqdTest != nil ? pqdTest! : 0
         }
     }
     
